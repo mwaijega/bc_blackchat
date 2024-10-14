@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// WelcomeScreen.tsx
+import React from 'react';
 import {
   Text,
   SafeAreaView,
@@ -13,21 +14,20 @@ import {
   Roboto_400Regular,
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto';
-import { NavigationProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParams } from '../routes'; // Import your StackParams type
 
 // Define the props type
 interface WelcomeScreenProps {
-  navigation: NavigationProp<any>;
+  navigation: StackNavigationProp<StackParams, 'Welcome'>; // Specific navigation type
 }
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
-  // Track font loading state
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
     Roboto_700Bold,
   });
 
-  // Check if fonts are loaded and set loading state accordingly
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -36,7 +36,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
       <View style={{ flex: 1, marginTop: 20, alignItems: 'center' }}>
-        {/* Use the correct `source` prop for a remote image */}
         <Image
           source={{ uri: 'http://192.155.92.17/images/logo_two.png' }}
           style={{ width: 200, height: 200 }} // Adjust size as needed
@@ -70,7 +69,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
               width: 290,
               justifyContent: 'center', // Center the button in its container
             }}
-            onPress={() => navigation.navigate('Login')} // Navigate to Login screen
+            onPress={() => navigation.replace('Login')} // Now it recognizes `replace`
           >
             <Text
               style={{
@@ -97,7 +96,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
               width: 290,
               justifyContent: 'center', // Center the button in its container
             }}
-            onPress={() => navigation.navigate('Signup')} // Navigate to Signup screen
+            onPress={() => navigation.replace('Signup')} // Now it recognizes `replace`
           >
             <Text
               style={{
