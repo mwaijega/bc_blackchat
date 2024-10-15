@@ -23,7 +23,6 @@ import CustomMessage from '../components/CustomMessage';
 import { StackParams } from '../routes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as LocalAuthentication from 'expo-local-authentication';
-import FloatingButton from '../components/FloatingButton';
 
 interface LoginScreenProps {
   navigation: StackNavigationProp<StackParams, 'Login'>;
