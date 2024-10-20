@@ -3,5 +3,5 @@ export type StackParams = {
   Login: undefined;
   Signup: undefined;
   Home: { token: string };
-  Chat: { name: string };
+  Chat: { sender: string; message: string };
 };

@@ -1,18 +1,37 @@
-import React from 'react';
-import { Text, View, ActivityIndicator, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  Button,
+  StyleSheet,
+} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   useFonts,
   Roboto_400Regular,
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto';
-import MessageCard from '../components/MessageCard';
 import FloatingButton from '../components/FloatingButton';
-import { StackParams } from '../routes'; // Import StackParams
+import { StackParams } from '../routes';
+import axios from 'axios';
+import { ACCESS_TOKEN, API_URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define props for HomeScreen
 interface HomeScreenProps {
   navigation: StackNavigationProp<StackParams, 'Home'>;
+}
+
+interface MessageStatus {
+  status: string;
+  sender: string;
+  time: string;
+  message: string;
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
@@ -20,8 +39,85 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     Roboto_400Regular,
     Roboto_700Bold,
   });
+  const [messageStatus, setMessageStatus] = useState<MessageStatus | null>(
+    null,
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [recipientModalVisible, setRecipientModalVisible] = useState(false);
+  const [recipient, setRecipient] = useState('');
+  const [alertVisible, setAlertVisible] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
-  if (!fontsLoaded) {
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    let backoffInterval = 2000; // Start with 2 seconds
+    const maxInterval = 30000; // Maximum backoff is 30 seconds
+
+    const fetchMessageStatus = async () => {
+      const token = await AsyncStorage.getItem('@access_token');
+
+      if (!token) {
+        setAlertMessage('No valid session found. Please log in first.');
+        setAlertVisible(true);
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const statusResponse = await axios.get(
+          `${API_URL}/message_status?token=${token}`,
+          {
+            headers: {
+              Accept: 'application/json',
+              access_token: ACCESS_TOKEN,
+            },
+          },
+        );
+
+        if (statusResponse.data.status === 'Message exists') {
+          setMessageStatus(statusResponse.data); // Update message status
+          backoffInterval = 2000; // Reset backoff if message exists
+        } else {
+          setMessageStatus(null);
+          // Increase the backoff interval (up to max)
+          backoffInterval = Math.min(backoffInterval * 2, maxInterval);
+        }
+      } catch (error) {
+        console.error('Error checking message status:', error);
+        setAlertMessage('Error checking message status.');
+        setAlertVisible(true);
+        // Increase the backoff interval (up to max) on error
+        backoffInterval = Math.min(backoffInterval * 2, maxInterval);
+      } finally {
+        setIsLoading(false);
+        // Clear the previous interval and set up the new one with backoff
+        clearTimeout(intervalId);
+        intervalId = setTimeout(fetchMessageStatus, backoffInterval);
+      }
+    };
+
+    // Initial fetch
+    fetchMessageStatus();
+
+    // Cleanup on unmount
+    return () => clearTimeout(intervalId);
+  }, []);
+
+  const handleFloatingButtonPress = () => {
+    setRecipientModalVisible(true);
+  };
+
+  const handleRecipientSubmit = () => {
+    if (recipient.trim() === '') {
+      alert('Please enter a valid recipient name.');
+      return;
+    }
+    setRecipientModalVisible(false);
+    navigation.navigate('Chat', { sender: recipient, message: '' });
+    setRecipient('');
+  };
+
+  if (!fontsLoaded || isLoading) {
     return <ActivityIndicator size="large" color="#ffffff" />;
   }
 
@@ -32,7 +128,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: 150,
+          marginTop: 50,
         }}
       >
         <Image
@@ -43,32 +139,145 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <ScrollView
         style={{
-          width: 'auto',
+          flex: 1,
           backgroundColor: '#D9D9D923',
           marginHorizontal: 20,
           borderRadius: 10,
-          marginTop: 150,
+          marginTop: 20,
           paddingHorizontal: 10,
-          paddingBottom: 200,
+          paddingBottom: 20,
         }}
+        contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <MessageCard name="John Doe" />
-        <MessageCard name="Jane Smith" />
-        <MessageCard name="Nsumba ntale" />
-        <MessageCard name="Robert John" />
-        <MessageCard name="Lautaro" />
-        <MessageCard name="Keneth" />
-        <MessageCard name="Mulla" />
+        {messageStatus ? (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Chat', {
+                sender: messageStatus.sender,
+                message: messageStatus.message,
+              })
+            }
+            style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+              backgroundColor: '#D9D9D923',
+              padding: 10,
+              borderRadius: 10,
+              alignItems: 'center',
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: 'gray',
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 15,
+              }}
+            >
+              <Image
+                source={{ uri: 'http://192.155.92.17/images/pro.png' }}
+                style={{ height: 40, width: 40, borderRadius: 20 }}
+              />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={{ fontSize: 14, fontWeight: 'bold', color: 'white' }}
+                >
+                  {messageStatus.sender}
+                </Text>
+                <Text style={{ color: 'white', fontSize: 12 }}>
+                  {messageStatus.time}
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginTop: 5,
+                }}
+              >
+                <Text style={{ color: 'white', fontSize: 12 }}>
+                  {messageStatus.message}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>
+            No new messages
+          </Text>
+        )}
       </ScrollView>
 
-      {/* Floating Button to navigate to ChatScreen */}
-      <FloatingButton
-        onPress={() => {
-          navigation.navigate('Chat', { name: 'New Recipient' }); // Pass 'name' prop to ChatScreen
-        }}
-      />
+      <FloatingButton onPress={handleFloatingButtonPress} />
+
+      {/* Modal to input recipient name */}
+      <Modal
+        visible={recipientModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setRecipientModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Enter Recipient</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Recipient name"
+              placeholderTextColor="#aaa"
+              value={recipient}
+              onChangeText={setRecipient}
+            />
+            <Button title="Submit" onPress={handleRecipientSubmit} />
+            <Button
+              title="Cancel"
+              onPress={() => setRecipientModalVisible(false)}
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  input: {
+    width: '100%',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginBottom: 15,
+  },
+});
 
 export default HomeScreen;
