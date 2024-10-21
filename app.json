@@ -11,10 +11,25 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#000"
       },
-      "package": "com.kelvinmwaijega.blackchat"
+      "package": "com.kelvinmwaijega.blackchat",
+      "permissions": ["INTERNET"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "apiUrl": "http://192.155.92.17", // Your API URL
+      "accessToken": "I9LLF5t0sJhZCH72mkveDFRfFfqOfpVuWCM4acDKVOk" // Your access token
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 21
+          }
+        }
+      ]
+    ]
   }
 }
