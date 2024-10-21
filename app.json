@@ -18,18 +18,9 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiUrl": "http://192.155.92.17", // Your API URL
-      "accessToken": "I9LLF5t0sJhZCH72mkveDFRfFfqOfpVuWCM4acDKVOk" // Your access token
-    },
-    "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "minSdkVersion": 21
-          }
-        }
-      ]
-    ]
+      "eas": {
+        "projectId": "882e3c43-ed70-4a2b-ad48-d0c1133640bf"
+      }
+    }
   }
 }
