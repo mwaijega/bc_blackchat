@@ -223,22 +223,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity
-            style={{ marginTop: 40 }}
-            onPress={() => navigation.replace('Login')}
-          >
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 14,
-                fontFamily: 'Roboto_400Regular',
-              }}
-            >
-              have an account ?{' '}
-              <Text style={{ color: 'lightblue' }}>Login</Text>
-            </Text>
-          </TouchableOpacity>
-
           <TouchableOpacity onPress={handleSignup}>
             <View style={{ marginTop: 20, alignItems: 'center' }}>
               <Text
@@ -257,6 +241,21 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
                 SIGN UP
               </Text>
             </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ marginTop: 40 }}
+            onPress={() => navigation.replace('Login')}
+          >
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 14,
+                fontFamily: 'Roboto_400Regular',
+              }}
+            >
+              have an account ?{' '}
+              <Text style={{ color: 'lightblue' }}>Login</Text>
+            </Text>
           </TouchableOpacity>
 
           <Image

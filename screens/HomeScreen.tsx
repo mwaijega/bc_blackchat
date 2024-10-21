@@ -22,6 +22,7 @@ import { StackParams } from '../routes';
 import axios from 'axios';
 import { ACCESS_TOKEN, API_URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BlurView } from 'expo-blur';
 
 interface HomeScreenProps {
   navigation: StackNavigationProp<StackParams, 'Home'>;
@@ -51,7 +52,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     let backoffInterval = 2000; // Start with 2 seconds
-    const maxInterval = 30000; // Maximum backoff is 30 seconds
 
     const fetchMessageStatus = async () => {
       const token = await AsyncStorage.getItem('@access_token');
@@ -79,15 +79,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           backoffInterval = 2000; // Reset backoff if message exists
         } else {
           setMessageStatus(null);
-          // Increase the backoff interval (up to max)
-          backoffInterval = Math.min(backoffInterval * 2, maxInterval);
         }
       } catch (error) {
         console.error('Error checking message status:', error);
         setAlertMessage('Error checking message status.');
         setAlertVisible(true);
-        // Increase the backoff interval (up to max) on error
-        backoffInterval = Math.min(backoffInterval * 2, maxInterval);
       } finally {
         setIsLoading(false);
         // Clear the previous interval and set up the new one with backoff
@@ -240,11 +236,33 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               value={recipient}
               onChangeText={setRecipient}
             />
-            <Button title="Submit" onPress={handleRecipientSubmit} />
-            <Button
-              title="Cancel"
-              onPress={() => setRecipientModalVisible(false)}
-            />
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 30,
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  padding: 10,
+                  backgroundColor: '#fff4',
+                  borderRadius: 10,
+                }}
+                onPress={handleRecipientSubmit}
+              >
+                <Text style={{ color: 'white' }}>SUBMIT</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  padding: 10,
+                  backgroundColor: '#fff4',
+                  borderRadius: 10,
+                }}
+                onPress={() => setRecipientModalVisible(false)}
+              >
+                <Text style={{ color: 'white' }}>CANCEL</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -257,18 +275,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
   modalContainer: {
     width: 300,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#097',
     borderRadius: 10,
     alignItems: 'center',
   },
   modalTitle: {
     fontSize: 18,
     marginBottom: 10,
+    color: 'white',
   },
   input: {
     width: '100%',
@@ -277,6 +296,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     marginBottom: 15,
+    color: 'white',
   },
 });
 
