@@ -34,7 +34,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#000000" />
+      <StatusBar barStyle="default" backgroundColor="#000000" />
       <View style={{ flex: 1, marginTop: 20, alignItems: 'center' }}>
         <Image
           source={{ uri: 'http://192.155.92.17/images/logo_two.png' }}
