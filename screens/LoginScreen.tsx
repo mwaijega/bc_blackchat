@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -23,6 +23,8 @@ import CustomMessage from '../components/CustomMessage';
 import { StackParams } from '../routes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as LocalAuthentication from 'expo-local-authentication';
+import SplashScreenView from '../SplashScreenView';
+import { StatusBar } from 'expo-status-bar';
 
 interface LoginScreenProps {
   navigation: StackNavigationProp<StackParams, 'Login'>;
@@ -37,14 +39,38 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [messageVisible, setMessageVisible] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [isShowSplash, setIsShowSplash] = useState(true);
 
+  // Load fonts asynchronously
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
     Roboto_700Bold,
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
+  // Splash screen timeout effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShowSplash(false);
+    }, 100);
+
+    return () => clearTimeout(timer); // Clean up the timer
+  }, []);
+
+  // Show splash screen while fonts are loading or the splash is active
+  if (!fontsLoaded || isShowSplash) {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'black',
+          flex: 1,
+        }}
+      >
+        <StatusBar hidden={true} />
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
   }
 
   const handleLogin = async () => {
@@ -131,6 +157,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     <SafeAreaView
       style={{ flex: 1, backgroundColor: 'black', position: 'relative' }}
     >
+      <StatusBar hidden={true} />
       <Image
         source={{ uri: 'http://192.155.92.17/images/form.png' }}
         style={{

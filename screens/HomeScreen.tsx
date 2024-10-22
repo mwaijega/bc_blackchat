@@ -10,6 +10,7 @@ import {
   TextInput,
   Button,
   StyleSheet,
+  StatusBar,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
@@ -114,11 +115,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   };
 
   if (!fontsLoaded || isLoading) {
-    return <ActivityIndicator size="large" color="#ffffff" />;
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'black',
+          flex: 1,
+        }}
+      >
+        <StatusBar hidden={true} />
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
   }
 
   return (
     <View style={{ backgroundColor: 'black', flex: 1 }}>
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
       <View
         style={{
           flex: 1,

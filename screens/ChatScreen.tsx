@@ -3,10 +3,10 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   ScrollView,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import axios from 'axios';
@@ -168,6 +168,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: 'black' }}>
+      <StatusBar barStyle="light-content" backgroundColor="black" />
       <View
         style={{
           flexDirection: 'row',

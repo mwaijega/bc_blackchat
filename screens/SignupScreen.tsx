@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -6,20 +6,19 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
+  StatusBar,
 } from 'react-native';
-import AppLoading from 'expo-app-loading';
 import {
   useFonts,
   Roboto_400Regular,
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto';
-import { NavigationProp } from '@react-navigation/native';
-import * as SecureStore from 'expo-secure-store';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { API_URL, ACCESS_TOKEN } from '@env'; // Import from .env
 import axios from 'axios';
 import CustomMessage from '../components/CustomMessage'; // Import CustomMessage
 import { StackParams } from '../routes'; // Import your StackParams type
-import { StackNavigationProp } from '@react-navigation/stack';
 
 interface SignupScreenProps {
   navigation: StackNavigationProp<StackParams, 'Login'>; // Specific navigation type
@@ -31,6 +30,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [securityNumber, setSecurityNumber] = useState('');
   const [passwordStrength, setPasswordStrength] = useState('');
+  const [isSplashVisible, setIsSplashVisible] = useState(true); // Splash screen state
 
   // CustomMessage state
   const [messageVisible, setMessageVisible] = useState(false);
@@ -38,6 +38,15 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
 
   const passwordRegex =
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+
+  useEffect(() => {
+    // Hide splash screen after 3 seconds
+    const splashTimeout = setTimeout(() => {
+      setIsSplashVisible(false);
+    }, 100);
+
+    return () => clearTimeout(splashTimeout); // Clean up the timeout
+  }, []);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -92,14 +101,28 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
     }
   };
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
+  // Show splash screen while fonts are loading or splash is visible
+  if (!fontsLoaded || isSplashVisible) {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'black',
+          flex: 1,
+        }}
+      >
+        <StatusBar hidden={true} />
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
   }
 
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: 'black', position: 'relative' }}
     >
+      <StatusBar hidden={true} />
       <Image
         source={{ uri: 'http://192.155.92.17/images/form.png' }}
         style={{
