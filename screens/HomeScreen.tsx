@@ -24,6 +24,7 @@ import axios from 'axios';
 import { ACCESS_TOKEN, API_URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BlurView } from 'expo-blur';
+import CustomAlert from '../components/CustomAlert';
 
 interface HomeScreenProps {
   navigation: StackNavigationProp<StackParams, 'Home'>;
@@ -106,7 +107,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const handleRecipientSubmit = () => {
     if (recipient.trim() === '') {
-      alert('Please enter a valid recipient name.');
+      setAlertMessage('Please enter a valid recipient name.');
+      setAlertVisible(true);
       return;
     }
     setRecipientModalVisible(false);
@@ -280,6 +282,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+      <CustomAlert
+        visible={alertVisible}
+        message={alertMessage}
+        onClose={() => setAlertVisible(false)}
+        title={''}
+      />
     </View>
   );
 };
