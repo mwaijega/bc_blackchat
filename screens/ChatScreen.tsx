@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   View,
-  Text,
   TextInput,
   ScrollView,
   Image,
@@ -13,6 +12,7 @@ import axios from 'axios';
 import { API_URL, ACCESS_TOKEN } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackParams } from '../routes';
+import CustomText from '../CustomText';
 
 interface ChatScreenProps extends StackScreenProps<StackParams, 'Chat'> {}
 
@@ -191,7 +191,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             style={{ height: 20, width: 20, borderRadius: 20 }}
           />
         </View>
-        <Text
+        <CustomText
           style={{
             fontSize: 18,
             fontWeight: 'bold',
@@ -200,7 +200,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           }}
         >
           {sender}
-        </Text>
+        </CustomText>
       </View>
 
       <ScrollView style={{ flex: 1, marginBottom: 20 }}>
@@ -216,12 +216,14 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               backgroundColor: msg.sender === 'Me' ? '#fff5' : '#fff2',
             }}
           >
-            <Text style={{ fontSize: 16, color: 'white' }}>
+            <CustomText style={{ fontSize: 16, color: 'white' }}>
               {msg.decrypted_message}
-            </Text>
-            <Text style={{ fontSize: 12, color: 'gray', textAlign: 'right' }}>
+            </CustomText>
+            <CustomText
+              style={{ fontSize: 12, color: 'gray', textAlign: 'right' }}
+            >
               {msg.received_at}
-            </Text>
+            </CustomText>
           </View>
         ))}
       </ScrollView>
@@ -245,6 +247,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             marginBottom: 10,
           }}
           placeholder="Type a message..."
+          allowFontScaling={false}
           placeholderTextColor="gray"
           value={newMessage}
           onChangeText={setNewMessage}

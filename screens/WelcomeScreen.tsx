@@ -14,7 +14,7 @@ import {
 } from '@expo-google-fonts/roboto';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParams } from '../routes'; // Import your StackParams type
-import SplashScreenView from '../SplashScreenView';
+import CustomText from '../CustomText';
 
 // Define the props type
 interface WelcomeScreenProps {
@@ -64,7 +64,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
           source={{ uri: 'http://192.155.92.17/images/logo_two.png' }}
           style={{ width: 200, height: 200 }} // Adjust size as needed
         />
-        <Text
+        <CustomText
           style={{
             textAlign: 'center',
             color: 'white',
@@ -76,7 +76,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
         >
           Forged like magma in the heart of a mountain, Blackchat empowers you
           with unbreakable, robotic protection.
-        </Text>
+        </CustomText>
         <View style={{ marginTop: 80 }}>
           <TouchableOpacity
             id="login"
@@ -95,7 +95,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
             }}
             onPress={() => navigation.replace('Login')}
           >
-            <Text
+            <CustomText
               style={{
                 fontSize: 18,
                 fontWeight: 'bold',
@@ -103,7 +103,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
               }}
             >
               LOGIN
-            </Text>
+            </CustomText>
           </TouchableOpacity>
           <TouchableOpacity
             id="register"
@@ -122,7 +122,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
             }}
             onPress={() => navigation.replace('Signup')}
           >
-            <Text
+            <CustomText
               style={{
                 fontSize: 18,
                 fontWeight: 'bold',
@@ -130,7 +130,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
               }}
             >
               SIGN UP
-            </Text>
+            </CustomText>
           </TouchableOpacity>
         </View>
       </View>

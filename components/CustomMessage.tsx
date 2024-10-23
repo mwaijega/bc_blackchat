@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   Modal,
   View,
-  Text,
   SafeAreaView,
   Animated,
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import CustomText from '../CustomText';
 
 interface CustomMessageProps {
   visible: boolean;
@@ -77,8 +77,8 @@ const CustomMessage: React.FC<CustomMessageProps> = ({
           ]}
         >
           <View style={styles.contentContainer}>
-            <Text style={styles.title}>Success</Text>
-            <Text style={styles.message}>{message}</Text>
+            <CustomText style={styles.title}>Success</CustomText>
+            <CustomText style={styles.message}>{message}</CustomText>
           </View>
 
           {/* Progress Bar */}

@@ -12,7 +12,12 @@
         "backgroundColor": "#000"
       },
       "package": "com.kelvinmwaijega.blackchat",
-      "permissions": ["INTERNET"]
+      "permissions": [
+        "INTERNET",
+        "NOTIFICATIONS",
+        "RECEIVE_BOOT_COMPLETED",
+        "SCHEDULE_EXACT_ALARM"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -21,6 +26,9 @@
       "eas": {
         "projectId": "882e3c43-ed70-4a2b-ad48-d0c1133640bf"
       }
+    },
+    "ios": {
+      "bundleIdentifier": "com.kelvinmwaijega.blackchat"
     }
   }
 }

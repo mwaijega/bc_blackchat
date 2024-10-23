@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Text,
   View,
   ActivityIndicator,
   Image,
@@ -23,8 +22,8 @@ import { StackParams } from '../routes';
 import axios from 'axios';
 import { ACCESS_TOKEN, API_URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BlurView } from 'expo-blur';
 import CustomAlert from '../components/CustomAlert';
+import CustomText from '../CustomText';
 
 interface HomeScreenProps {
   navigation: StackNavigationProp<StackParams, 'Home'>;
@@ -203,14 +202,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   alignItems: 'center',
                 }}
               >
-                <Text
+                <CustomText
                   style={{ fontSize: 14, fontWeight: 'bold', color: 'white' }}
                 >
                   {messageStatus.sender}
-                </Text>
-                <Text style={{ color: 'white', fontSize: 12 }}>
+                </CustomText>
+                <CustomText style={{ color: 'white', fontSize: 12 }}>
                   {messageStatus.time}
-                </Text>
+                </CustomText>
               </View>
 
               <View
@@ -220,16 +219,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   marginTop: 5,
                 }}
               >
-                <Text style={{ color: 'white', fontSize: 12 }}>
+                <CustomText style={{ color: 'white', fontSize: 12 }}>
                   {messageStatus.message}
-                </Text>
+                </CustomText>
               </View>
             </View>
           </TouchableOpacity>
         ) : (
-          <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>
+          <CustomText
+            style={{ color: 'white', textAlign: 'center', marginTop: 20 }}
+          >
             No new messages
-          </Text>
+          </CustomText>
         )}
       </ScrollView>
 
@@ -244,11 +245,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Enter Recipient</Text>
+            <CustomText style={styles.modalTitle}>Enter Recipient</CustomText>
             <TextInput
               style={styles.input}
               placeholder="Recipient name"
               placeholderTextColor="#aaa"
+              allowFontScaling={false}
               value={recipient}
               onChangeText={setRecipient}
             />
@@ -266,7 +268,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 }}
                 onPress={handleRecipientSubmit}
               >
-                <Text style={{ color: 'white' }}>SUBMIT</Text>
+                <CustomText style={{ color: 'white' }}>SUBMIT</CustomText>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{
@@ -276,7 +278,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 }}
                 onPress={() => setRecipientModalVisible(false)}
               >
-                <Text style={{ color: 'white' }}>CANCEL</Text>
+                <CustomText style={{ color: 'white' }}>CANCEL</CustomText>
               </TouchableOpacity>
             </View>
           </View>
@@ -302,7 +304,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: 300,
     padding: 20,
-    backgroundColor: '#097',
+    backgroundColor: 'gray',
     borderRadius: 10,
     alignItems: 'center',
   },

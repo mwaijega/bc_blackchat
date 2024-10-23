@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Modal,
   View,
-  Text,
   SafeAreaView,
   Animated,
   TouchableOpacity,
@@ -12,6 +11,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { Audio } from 'expo-av';
+import CustomText from '../CustomText';
 
 interface CustomAlertProps {
   visible: boolean;
@@ -119,12 +119,14 @@ const CustomAlert: React.FC<CustomAlertProps> = ({
           >
             <View style={styles.contentContainer}>
               <View style={styles.titleContainer}>
-                <Text style={styles.title}>{title}</Text>
+                <CustomText style={styles.title}>{title}</CustomText>
                 <TouchableOpacity onPress={onClose}>
                   <Feather name="x" size={24} color="#fff" />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.message}>{getShortMessage(message)}</Text>
+              <CustomText style={styles.message}>
+                {getShortMessage(message)}
+              </CustomText>
             </View>
             <Animated.View
               style={[

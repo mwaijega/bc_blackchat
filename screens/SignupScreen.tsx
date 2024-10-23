@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Text,
   SafeAreaView,
   Image,
   View,
@@ -19,6 +18,7 @@ import { API_URL, ACCESS_TOKEN } from '@env'; // Import from .env
 import axios from 'axios';
 import CustomMessage from '../components/CustomMessage'; // Import CustomMessage
 import { StackParams } from '../routes'; // Import your StackParams type
+import CustomText from '../CustomText';
 
 interface SignupScreenProps {
   navigation: StackNavigationProp<StackParams, 'Login'>; // Specific navigation type
@@ -142,7 +142,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
           alignItems: 'center',
         }}
       >
-        <Text
+        <CustomText
           style={{
             color: 'white',
             fontSize: 24,
@@ -151,13 +151,13 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
           }}
         >
           BLACKUP
-        </Text>
+        </CustomText>
       </View>
 
       <View style={{ top: 250, marginHorizontal: 30 }}>
         {/* Security Number Input */}
         <View style={{ marginBottom: 20 }}>
-          <Text
+          <CustomText
             style={{
               color: 'white',
               fontSize: 18,
@@ -165,7 +165,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
             }}
           >
             Security Number
-          </Text>
+          </CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -186,6 +186,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
             <TextInput
               style={{ flex: 1, color: 'black' }}
               placeholder="Enter your security number"
+              allowFontScaling={false}
               placeholderTextColor="gray"
               value={securityNumber}
               onChangeText={setSecurityNumber}
@@ -195,7 +196,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
 
         {/* Password Input */}
         <View>
-          <Text
+          <CustomText
             style={{
               color: 'white',
               fontSize: 18,
@@ -203,7 +204,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
             }}
           >
             Password
-          </Text>
+          </CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -224,6 +225,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
             <TextInput
               style={{ flex: 1, color: 'black' }}
               placeholder="Enter your password"
+              allowFontScaling={false}
               placeholderTextColor="gray"
               secureTextEntry={!passwordVisible}
               value={password}
@@ -240,15 +242,15 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          <Text style={{ color: 'gray', fontSize: 12, marginTop: 5 }}>
+          <CustomText style={{ color: 'gray', fontSize: 12, marginTop: 5 }}>
             Password Strength: {passwordStrength}
-          </Text>
+          </CustomText>
         </View>
 
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity onPress={handleSignup}>
             <View style={{ marginTop: 20, alignItems: 'center' }}>
-              <Text
+              <CustomText
                 style={{
                   color: 'white',
                   fontSize: 18,
@@ -262,14 +264,14 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
                 }}
               >
                 SIGN UP
-              </Text>
+              </CustomText>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ marginTop: 40 }}
             onPress={() => navigation.replace('Login')}
           >
-            <Text
+            <CustomText
               style={{
                 color: 'white',
                 fontSize: 14,
@@ -277,8 +279,8 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
               }}
             >
               have an account ?{' '}
-              <Text style={{ color: 'lightblue' }}>Login</Text>
-            </Text>
+              <CustomText style={{ color: 'lightblue' }}>Login</CustomText>
+            </CustomText>
           </TouchableOpacity>
 
           <Image

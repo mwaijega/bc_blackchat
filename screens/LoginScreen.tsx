@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Text,
   SafeAreaView,
   Image,
   View,
@@ -25,6 +24,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import * as LocalAuthentication from 'expo-local-authentication';
 import SplashScreenView from '../SplashScreenView';
 import { StatusBar } from 'expo-status-bar';
+import CustomText from '../CustomText';
 
 interface LoginScreenProps {
   navigation: StackNavigationProp<StackParams, 'Login'>;
@@ -178,7 +178,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           alignItems: 'center',
         }}
       >
-        <Text
+        <CustomText
           style={{
             color: 'white',
             fontSize: 24,
@@ -187,12 +187,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           }}
         >
           BLACKING
-        </Text>
+        </CustomText>
       </View>
 
       <View style={{ top: 250, marginHorizontal: 30 }}>
         <View style={{ marginBottom: 20 }}>
-          <Text
+          <CustomText
             style={{
               color: 'white',
               fontSize: 18,
@@ -200,7 +200,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             }}
           >
             Security Number
-          </Text>
+          </CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -221,6 +221,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             <TextInput
               style={{ flex: 1, color: 'black' }}
               placeholder="Enter your security number"
+              allowFontScaling={false}
               placeholderTextColor="gray"
               value={securityNumber}
               onChangeText={setSecurityNumber}
@@ -229,7 +230,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         </View>
 
         <View>
-          <Text
+          <CustomText
             style={{
               color: 'white',
               fontSize: 18,
@@ -237,7 +238,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             }}
           >
             Password
-          </Text>
+          </CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -260,6 +261,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               placeholder="Enter your password"
               placeholderTextColor="gray"
               secureTextEntry={!passwordVisible}
+              allowFontScaling={false}
               value={password}
               onChangeText={setPassword}
             />
@@ -295,7 +297,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 {loading ? (
                   <ActivityIndicator size="large" color="white" />
                 ) : (
-                  <Text
+                  <CustomText
                     style={{
                       color: 'white',
                       fontSize: 18,
@@ -308,7 +310,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     }}
                   >
                     Login
-                  </Text>
+                  </CustomText>
                 )}
               </View>
             </TouchableOpacity>
@@ -352,7 +354,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             }}
             onPress={() => navigation.replace('Signup')}
           >
-            <Text
+            <CustomText
               style={{
                 color: 'white',
                 fontSize: 14,
@@ -360,8 +362,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               }}
             >
               Don't have an account?{' '}
-              <Text style={{ color: 'lightblue' }}>Sign Up</Text>
-            </Text>
+              <CustomText style={{ color: 'lightblue' }}>Sign Up</CustomText>
+            </CustomText>
           </TouchableOpacity>
 
           <View style={{ alignItems: 'center', marginTop: 60 }}>

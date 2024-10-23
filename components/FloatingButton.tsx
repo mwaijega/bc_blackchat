@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { Animated, TouchableOpacity, StyleSheet } from 'react-native';
+import CustomText from '../CustomText';
 
 // Define the props type for the FloatingButton
 interface FloatingButtonProps {
@@ -22,7 +23,7 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({ onPress }) => {
       style={[styles.buttonContainer, { transform: [{ translateY }] }]}
     >
       <TouchableOpacity onPress={onPress} style={styles.floatingButton}>
-        <Text style={styles.plusSign}>+</Text>
+        <CustomText style={styles.plusSign}>+</CustomText>
       </TouchableOpacity>
     </Animated.View>
   );
