@@ -6,10 +6,12 @@ import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
 import ChatScreen from './screens/ChatScreen';
 import { StackParams } from './routes';
+import registerNNPushToken from 'native-notify';
 
 const Stack = createNativeStackNavigator<StackParams>();
 
 export default function App() {
+  registerNNPushToken(24331, 'fs56tGWRkgDC7DFdr8sYyP');
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">

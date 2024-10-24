@@ -20,15 +20,7 @@
         "SCHEDULE_EXACT_ALARM"
       ]
     },
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/icon.png",
-          "color": "#000"
-        }
-      ]
-    ],
+
     "web": {
       "favicon": "./assets/favicon.png"
     },
